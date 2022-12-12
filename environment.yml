@@ -1,0 +1,11 @@
+name: florence
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+ - pip==21.0.1
+ - python==3.8
+ - jupyter
+ - flake8
+ - pip:
+   - -r requirements.txt

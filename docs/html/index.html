@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Project 1: Armageddon - The hazard of small asteroids &#8212; Day After tomorrow - Florence  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="project-1-armageddon-the-hazard-of-small-asteroids">
+<h1>Project 1: Armageddon - The hazard of small asteroids<a class="headerlink" href="#project-1-armageddon-the-hazard-of-small-asteroids" title="Permalink to this headline">¶</a></h1>
+<section id="synopsis">
+<h2>Synopsis:<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<p>This project was pursued for an open competition Federal Emergency Managment Agency (FEMA) aimed to improve emergency orotocols under hurricane threats. Here below you can find our implementation for the problem released.</p>
+<blockquote>
+<div><p>Hurricanes can cause upwards of 1,000 deaths and $50 billion in damages in a single event, and have been responsible for well over 160,000 deaths globally in recent history. During a tropical cyclone, humanitarian response efforts hinge on accurate risk approximation models that can help predict optimal emergency strategic decisions.</p>
+<p>This achine Learning model predicts how a hurracane Evolves in the near future.</p>
+</div></blockquote>
+</section>
+<section id="problem-definition">
+<h2>Problem definition<a class="headerlink" href="#problem-definition" title="Permalink to this headline">¶</a></h2>
+<p>The Competition Provided a dataset of 494 NASA Satellite images of tropical storms. They are of a varied length (4 - 648, avg 142) and labelled by id, ocean (1 or 2) and wind speed. The dataset can be reached here: <a class="reference external" href="https://mlhub.earth/data/nasa_tropical_storm_competition">https://mlhub.earth/data/nasa_tropical_storm_competition</a> .</p>
+<p>Our Objective was, given one active hurricane where some satellite images have already been made available, to generate a ML/DL-based solution able to generate as many future image predictions as possible based on these existing images for that given storm. We have used only storms with more than 100 samples and design, train, and present your results in the video found in the repository.</p>
+<section id="additional-sections">
+<h3>Additional sections<a class="headerlink" href="#additional-sections" title="Permalink to this headline">¶</a></h3>
+<p>We have two main features in our package:</p>
+<ul class="simple">
+<li><p>Preprocessing: This is the script that contains functions to upload and manipulate the data and prepare it for learning.</p></li>
+<li><p>Network: Here instead we build our network to learn and predict a selected storm from the dataset.</p></li>
+</ul>
+<p>Please note we have left the package flaxible to personalisations, thus performance is mainly achieved through hyper-parameter tuning and optimisation.</p>
+<p>Out software is deployed as a package with two scripts containing most of the functions. We have implemeted a Colvolutional Long Short Term Memory network.</p>
+<p>In script preprocessing.py we have two classes:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>StormTensorDataset: class to format the stor dataset and has two main objects</dt><dd><ul>
+<li><p>len to find out lenght pf dataset</p></li>
+<li><p>getitm to an image and its target.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Preprocessor: this class is to prepare and format data to go through the trainig network.</dt><dd><ul>
+<li><p>data_download: download data to a path in directory</p></li>
+<li><p>select_storm: slect a storm to predict through its id</p></li>
+<li><p>get_mean_std: get mean a standard deviation of storm data</p></li>
+<li><p>create_datasets_dataloaders: create training and validation sets and from those create dataloaders</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>In the Network.py instead we have:</p>
+<ul class="simple">
+<li><p>an initial function to switch to check for GPu when in collab</p></li>
+</ul>
+<ul class="simple">
+<li><dl class="simple">
+<dt>ConvLSTMCell: This creates the convolution operator whithin our LSTM network.</dt><dd><ul>
+<li><p>Forward: function that defines a forward pass theough the convolutional cell</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>ConvLSTM: This class creates an LSTM network from our prvious convolution cell</dt><dd><ul>
+<li><p>forward: Thus is an object that crated a forward pass through our ConvLSTM architecture.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Seq2Seq: this class let us create a network of arbitrary ConvLSTM layers to give us the flexibility to try different set ups</dt><dd><ul>
+<li><p>forward: creates forward pass through all the layers in our network.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>In addition, we have further 3 functions that help us manipulate the network:</p>
+<ul class="simple">
+<li><p>train_conv_lstm: function to train our network.</p></li>
+<li><p>validate_conv_lstm: function to validate your network:</p></li>
+<li><p>eval_images: function generating the predicted images and comparing to the test set.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="function-api">
+<h1>Function API<a class="headerlink" href="#function-api" title="Permalink to this headline">¶</a></h1>
+<p>Python 3.8 is used in this implementation used</p>
+<p>containing the following packages in requiroments.txt
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">numpy</span> <span class="pre">&gt;=</span> <span class="pre">1.13.0</span>
+<span class="pre">ipython</span>
+<span class="pre">scipy</span>
+<span class="pre">sympy</span>
+<span class="pre">pandas</span>
+<span class="pre">matplotlib</span>
+<span class="pre">mpltools</span>
+<span class="pre">pytest</span>
+<span class="pre">pytest-timeout</span>
+<span class="pre">sphinx</span>
+<span class="pre">seaborn</span>
+<span class="pre">pillow</span>
+<span class="pre">torch</span>
+<span class="pre">sklearn</span>
+<span class="pre">pycm</span>
+<span class="pre">livelossplot</span>
+<span class="pre">Torchvision</span>
+<span class="pre">radiant_mlhub</span>
+<span class="pre">torchsummary</span>
+<span class="pre">ipython</span>
+<span class="pre">wand</span>
+<span class="pre">`</span></code></p>
+<ul class="simple">
+<li><p>Preprocessing:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">import</span> <span class="pre">tarfile</span>
+<span class="pre">from</span> <span class="pre">pathlib</span> <span class="pre">import</span> <span class="pre">Path</span>
+<span class="pre">from</span> <span class="pre">glob</span> <span class="pre">import</span> <span class="pre">glob</span>
+<span class="pre">import</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np</span>
+<span class="pre">from</span> <span class="pre">radiant_mlhub</span> <span class="pre">import</span> <span class="pre">Dataset</span>
+<span class="pre">import</span> <span class="pre">matplotlib.image</span> <span class="pre">as</span> <span class="pre">mpimg</span>
+<span class="pre">import</span> <span class="pre">torch</span>
+<span class="pre">from</span> <span class="pre">torch.utils.data</span> <span class="pre">import</span> <span class="pre">TensorDataset,</span> <span class="pre">DataLoader</span>
+<span class="pre">import</span> <span class="pre">torchvision.transforms</span> <span class="pre">as</span> <span class="pre">transforms</span>
+<span class="pre">`</span></code></p>
+<ul class="simple">
+<li><p>Network:</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">import</span> <span class="pre">matplotlib.pyplot</span> <span class="pre">as</span> <span class="pre">plt</span>
+<span class="pre">import</span> <span class="pre">torch</span>
+<span class="pre">import</span> <span class="pre">torch.nn</span> <span class="pre">as</span> <span class="pre">nn</span>
+<span class="pre">import</span> <span class="pre">torchvision.transforms</span> <span class="pre">as</span> <span class="pre">transforms</span>
+<span class="pre">`</span></code></p>
+<p>All the rest are used in the notebooks for analysis/visualisation of results.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Day After tomorrow - Florence</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,21 @@
+numpy >= 1.13.0
+ipython
+scipy
+sympy
+pandas
+matplotlib
+mpltools
+pytest
+pytest-timeout
+sphinx
+seaborn
+pillow
+torch
+sklearn
+pycm 
+livelossplot
+Torchvision
+radiant_mlhub
+torchsummary
+ipython
+wandb
